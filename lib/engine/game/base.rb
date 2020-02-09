@@ -103,12 +103,12 @@ module Engine
         @_shares[name]
       end
 
-      def city_by_name(name)
+      def city_by_id_and_coords(id, coords)
         @_cities ||= @hexes.map(&:tile).compact.flat_map(&:cities).map do |c|
-          [c.name, c]
+          [[c.id, c.coordinates], c]
         end.to_h
 
-        @_cities[name]
+        @_cities[[id, coords]]
       end
 
       def upgrades_for_tile(tile)

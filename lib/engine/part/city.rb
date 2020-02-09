@@ -5,7 +5,7 @@ require 'engine/part/base'
 module Engine
   module Part
     class City < Base
-      attr_accessor :reservations
+      attr_accessor :reservations, :tile
       attr_reader :id, :revenue, :slots, :tokens
 
       def initialize(revenue, slots = 1, id = 0, reservations = [])
@@ -14,6 +14,7 @@ module Engine
         @id = id.to_i
         @tokens = Array.new(@slots)
         @reservations = reservations&.map(&:to_sym) || []
+        @tile = nil
       end
 
       def ==(other)
@@ -55,6 +56,10 @@ module Engine
         token = corporation.tokens.find(&:unplaced?)
         token.place!
         @tokens[slot] = token
+      end
+
+      def coordinates
+        @tile&.coordinates
       end
     end
   end

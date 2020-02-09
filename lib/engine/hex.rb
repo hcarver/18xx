@@ -55,6 +55,8 @@ module Engine
       # give the city/town name of this hex to the tile
       tile&.location_name = @location_name
 
+      tile.coordinates = @coordinates
+
       @tile = tile
     end
 

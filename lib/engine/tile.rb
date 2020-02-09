@@ -97,7 +97,7 @@ module Engine
 
     COLORS = %i[white yellow green brown gray].freeze
 
-    attr_accessor :location_name
+    attr_accessor :coordinates, :location_name
     attr_reader :cities, :color, :edges, :junctions, :label, :name,
                 :parts, :paths, :rotation, :towns, :upgrades
 
@@ -184,6 +184,7 @@ module Engine
       @junctions = nil
       @upgrades = []
       @location_name = nil
+      @coordinates = nil
       separate_parts
       rotate_edges!(rotation)
     end
@@ -247,6 +248,7 @@ module Engine
     def separate_parts
       @parts.each do |part|
         if part.city?
+          part.tile = self
           @cities << part
         elsif part.label?
           @label = part

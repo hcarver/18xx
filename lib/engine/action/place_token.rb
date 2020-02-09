@@ -15,7 +15,7 @@ module Engine
       def copy(game)
         self.class.new(
           game.corporation_by_name(@entity.name),
-          game.city_by_name(@city.name),
+          game.city_by_id_and_coords(@city.id, @city.coordinates),
           @slot
         )
       end
