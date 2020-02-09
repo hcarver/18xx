@@ -2,7 +2,7 @@
 
 module Engine
   class Hex
-    attr_reader :coordinates, :layout, :tile, :x, :y
+    attr_reader :coordinates, :layout, :tile, :x, :y, :location_name
 
     DIRECTIONS = {
       flat: {
@@ -28,12 +28,13 @@ module Engine
     # Coordinates are of the form A1..Z99
     # x and y map to the double coordinate system
     # layout is pointy or flat
-    def initialize(coordinates, layout: :pointy, tile: nil)
+    def initialize(coordinates, layout: :pointy, tile: nil, location_name: nil)
       @coordinates = coordinates
       @layout = layout
       @x = LETTERS.index(@coordinates[0]).to_i
       @y = @coordinates[1..-1].to_i - 1
-      @tile = tile
+      @location_name = location_name
+      lay(tile)
     end
 
     def name
@@ -50,6 +51,9 @@ module Engine
           tile.cities[i].place_token(token.corporation) if token
         end
       end
+
+      # give the city/town name of this hex to the tile
+      tile&.location_name = @location_name
 
       @tile = tile
     end

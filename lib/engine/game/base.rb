@@ -29,8 +29,12 @@ module Engine
         white: {
           %w[A1] => 'blank',
           %w[B2] => 'city',
-          %w[A3] => 'c=r:0,n:Exampleville;l=A;u=c:30',
+          %w[A3] => 'c=r:0;l=A;u=c:30',
         },
+      }.freeze
+
+      LOCATION_NAMES = {
+        'A3' => 'Exampleville',
       }.freeze
 
       def initialize(names, actions: [])
@@ -155,16 +159,17 @@ module Engine
       def init_hexes
         self.class::HEXES.map do |color, hexes|
           hexes.map do |coords, tile_string|
-            tile =
-              begin
-                Tile.for(tile_string)
-              rescue Engine::GameError
-                name = tile_string
-                code = tile_string
-                Tile.from_code(name, color, code)
-              end
             coords.map do |coord|
-              Hex.new(coord, layout: layout, tile: tile)
+              tile =
+                begin
+                  Tile.for(tile_string)
+                rescue Engine::GameError
+                  name = coords
+                  code = tile_string
+                  Tile.from_code(name, color, code)
+                end
+              location_name = self.class::LOCATION_NAMES[coord]
+              Hex.new(coord, layout: layout, tile: tile, location_name: location_name)
             end
           end
         end.flatten

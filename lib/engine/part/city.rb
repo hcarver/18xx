@@ -6,12 +6,12 @@ module Engine
   module Part
     class City < Base
       attr_accessor :reservations
-      attr_reader :name, :revenue, :slots, :tokens
+      attr_reader :id, :revenue, :slots, :tokens
 
-      def initialize(revenue, slots = 1, name = nil, reservations = [])
+      def initialize(revenue, slots = 1, id = 0, reservations = [])
         @revenue = revenue.to_i
         @slots = slots.to_i
-        @name = name
+        @id = id.to_i
         @tokens = Array.new(@slots)
         @reservations = reservations&.map(&:to_sym) || []
       end
@@ -20,13 +20,13 @@ module Engine
         other.city? &&
           @revenue == other.revenue &&
           @slots == other.slots &&
-          @name == other.name &&
+          @id == other.id &&
           @tokens == other.tokens &&
           @reservations == other.reservations
       end
 
       def <=(other)
-        other.city? && (@name == other.name)
+        other.city? && (@id == other.id)
       end
 
       def city?

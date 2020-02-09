@@ -28,7 +28,6 @@ module Engine
         expect(actual.class).to eq(Engine::Part::City)
         expect(actual.revenue).to eq(30)
         expect(actual.slots).to eq(2)
-        expect(actual.name).to eq('Kouchi')
         expect(actual.tokens).to eq([nil, nil])
       end
     end
